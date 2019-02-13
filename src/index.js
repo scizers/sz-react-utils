@@ -1,11 +1,10 @@
-// import TableComp from './utils/table.js'
-// import FormUtils from './utils/formUtils.js'
+import tc from './utils/table.js'
+import fu from './utils/formUtils.js'
 
-
-export const TableComp = require('./utils/table.js')
-export const FormUtils = require('./utils/formUtils.js')
+export const TableComp = tc
+export const FormUtils = fu
 
 export default {
-  TableComp,
-  FormUtils
+  TableComp: tc,
+  FormUtils: fu
 }
