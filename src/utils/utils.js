@@ -174,7 +174,6 @@ export function getMutatedState (param) {
   return console.dir(arguments)
 }
 
-
 export const formItemLayout = {
   labelCol: {
     xs: { span: 24 },

@@ -1,14 +1,13 @@
 import moment from 'moment'
-import React, { Component, PureComponent } from 'react'
-import { apiUrl } from '../../settings'
+import React, {Component, PureComponent} from 'react'
 
-import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch } from 'antd'
+import {Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch} from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 
 const FormItem = Form.Item
 const Option = Select.Option
-const { TextArea } = Input
+const {TextArea} = Input
 
 const styles = {
   mainDiv: {
@@ -47,7 +46,8 @@ class SimpleFormElement extends PureComponent {
   section = (type) => {
 
     let x = this.props
-    let { item } = this.props
+    let {item, apiUrl } = this.props
+
     switch (type) {
       case 'number':
         return <InputNumber {...x} />
@@ -63,8 +63,7 @@ class SimpleFormElement extends PureComponent {
         let limit = 1
         if (!!item.limit) limit = item.limit
 
-        let { fileUploads, item: { key } } = x
-        // console.log(filapiUrleUploads[key], 'fileUploads[key ')
+        let {fileUploads, item: {key}} = x
 
         let uploadEnable = true
         if (fileUploads[key] !== undefined) {
@@ -99,7 +98,7 @@ class SimpleFormElement extends PureComponent {
 
       case 'select':
         if (!x.options) x.options = []
-        if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
+        if (!x.item.defaultValue) x.item.defaultValue = {'key': 'Please Select'}
         return <SelectMy {...x}/>
 
       default:
@@ -108,8 +107,8 @@ class SimpleFormElement extends PureComponent {
   }
 
   render () {
-    const { item } = this.props
-    const { type } = item
+    const {item} = this.props
+    const {type} = item
     return (
       <React.Fragment>
         {this.section(type)}
@@ -186,7 +185,7 @@ class getAllFormFields extends PureComponent {
     }
     let fileUploads = this.state.fileUploads
     fileUploads[name] = e.fileList
-    this.setState({ fileUploads })
+    this.setState({fileUploads})
 
     return e && e.fileList
   }
@@ -198,21 +197,21 @@ class getAllFormFields extends PureComponent {
 
   render () {
 
-    const { inputSchema, getFieldDecorator, children, formItemLayout } = this.props
+    const {inputSchema, getFieldDecorator, children, formItemLayout, apiUrl} = this.props
 
     let FIL = {}
 
     if (!formItemLayout) {
       FIL = {
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
-          md: { span: 8 }
+          xs: {span: 24},
+          sm: {span: 8},
+          md: {span: 8}
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
-          md: { span: 12 }
+          xs: {span: 24},
+          sm: {span: 16},
+          md: {span: 12}
         }
       }
     } else {
@@ -240,8 +239,9 @@ class getAllFormFields extends PureComponent {
 
 
           let inputProps = {}
-          if (!!item.placeholder) inputProps.placeholder = item.placeholder
 
+          if (!!item.placeholder) inputProps.placeholder = item.placeholder
+          if (!!apiUrl) inputProps.apiUrl = apiUrl
 
           if (!!item.options) {
             inputProps.options = item.options
@@ -278,7 +278,7 @@ class getAllFormFields extends PureComponent {
                         key={item.key}
                         label={item.label}>
 
-                {getFieldDecorator(item.key, { rules, ...customEvent })(
+                {getFieldDecorator(item.key, {rules, ...customEvent})(
                   <SimpleFormElement item={item} {...inputProps}/>)}
 
               </FormItem>
