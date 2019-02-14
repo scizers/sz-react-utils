@@ -173,7 +173,7 @@ class SelectAsync extends PureComponent {
 
 }
 
-class getAllFormFields extends PureComponent {
+class getAllFormFields extends Component {
 
   state = {
     fileUploads: []
