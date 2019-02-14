@@ -59,6 +59,7 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "memoize-one": "^5.0.0",
-    "react-highlight-words": "^0.16.0"
+    "react-highlight-words": "^0.16.0",
+    "string": "^3.3.3"
   }
 }

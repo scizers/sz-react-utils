@@ -6,6 +6,8 @@ import {
 import _ from 'lodash'
 import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
+import S from 'string'
+import { getUrlPushWrapper } from '../../routes'
 
 class TableComp extends Component {
 
@@ -153,6 +155,9 @@ class TableComp extends Component {
         i.dataIndex = i.key
       }
 
+      if (i.title === undefined) {
+        i.title = S(i.dataIndex).humanize().titleCase().s
+      }
       x.push(i)
 
     })
@@ -166,19 +171,31 @@ class TableComp extends Component {
 
   render () {
     const { columns } = this.state
-    const { extraProps } = this.props
+    const { extraProps, reloadButon } = this.props
 
     return (
-      <Table
-        bordered
-        {...extraProps}
-        columns={columns}
-        rowKey={record => record._id}
-        dataSource={this.state.data}
-        pagination={this.state.pagination}
-        onChange={this.handleTableChange}
-        loading={this.state.loading}
-      />)
+      <React.Fragment>
+
+        <div>
+          {reloadButon ?
+            <Button
+              shape="circle" onClick={() => {
+              this.reload()
+            }} icon="reload"/> : null}
+        </div>
+
+        <Table
+          bordered
+          {...extraProps}
+          columns={columns}
+          rowKey={record => record._id}
+          dataSource={this.state.data}
+          pagination={this.state.pagination}
+          onChange={this.handleTableChange}
+          loading={this.state.loading}
+        />
+      </React.Fragment>
+    )
 
   }
 }
