@@ -7,7 +7,6 @@ import _ from 'lodash'
 import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
-import { getUrlPushWrapper } from '../../routes'
 
 class TableComp extends Component {
 
