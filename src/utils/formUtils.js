@@ -46,7 +46,7 @@ class SimpleFormElement extends PureComponent {
   section = (type) => {
 
     let x = this.props
-    let {item, apiUrl } = this.props
+    let {item, apiurl } = this.props
 
     switch (type) {
       case 'number':
@@ -75,7 +75,7 @@ class SimpleFormElement extends PureComponent {
         return (
           <Upload
             name={'file'}
-            action={`${apiUrl}/filesUploader`}
+            action={`${apiurl}/filesUploader`}
             defaultFileList={item.defaultFileList}
             showUploadList={true}
             {...x}
@@ -197,7 +197,7 @@ class getAllFormFields extends PureComponent {
 
   render () {
 
-    const {inputSchema, getFieldDecorator, children, formItemLayout, apiUrl} = this.props
+    const {inputSchema, getFieldDecorator, children, formItemLayout, apiurl} = this.props
 
     let FIL = {}
 
@@ -241,7 +241,7 @@ class getAllFormFields extends PureComponent {
           let inputProps = {}
 
           if (!!item.placeholder) inputProps.placeholder = item.placeholder
-          if (!!apiUrl) inputProps.apiUrl = apiUrl
+          if (!!apiurl) inputProps.apiurl = apiurl
 
           if (!!item.options) {
             inputProps.options = item.options
