@@ -53,7 +53,7 @@ class SimpleFormElement extends PureComponent {
         return <InputNumber {...x} />
 
       case 'date':
-        return <DatePicker {...x} />
+        return <DatePicker {...x} format={item.format}/>
 
       case 'textArea':
         return <TextArea {...x} rows={x.rows}/>
@@ -123,7 +123,7 @@ class SelectMy extends PureComponent {
 
     let x = this.props
 
-    return (<Select {...x}>
+    return (<Select {...x} onChange={x.item.onChange}>
       {
         x.item.options.map((val, index) => {
           if (typeof val == 'object') {
