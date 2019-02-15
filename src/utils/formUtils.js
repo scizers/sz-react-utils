@@ -128,7 +128,7 @@ class SelectMy extends PureComponent {
         x.item.options.map((val, index) => {
           if (typeof val == 'object') {
             return (
-              <Option key={index} value={val.id}>{val.display}</Option>
+              <Option key={index} value={val._id}>{val.display}</Option>
             )
           } else {
             return (
