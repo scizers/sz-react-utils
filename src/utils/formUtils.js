@@ -53,7 +53,7 @@ class SimpleFormElement extends Component {
         return <InputNumber {...x} />
 
       case 'date':
-        return <DatePicker {...x} />
+        return <DatePicker {...x} format={item.format}/>
 
       case 'textArea':
         return <TextArea {...x} rows={x.rows}/>
@@ -123,12 +123,12 @@ class SelectMy extends Component {
 
     let x = this.props
 
-    return (<Select {...x}>
+    return (<Select {...x} onChange={x.item.onChange}>
       {
         x.item.options.map((val, index) => {
           if (typeof val == 'object') {
             return (
-              <Option key={index} value={val.id}>{val.display}</Option>
+              <Option key={index} value={val._id}>{val.display}</Option>
             )
           } else {
             return (
