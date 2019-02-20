@@ -4,6 +4,7 @@ import React, { Component, PureComponent } from 'react'
 import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
+import S from "string";
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -252,6 +253,10 @@ class getAllFormFields extends Component {
               required: true,
               message: item.requiredMessage ? item.requiredMessage : 'This is a Mandatory Field'
             })
+          }
+
+          if (item.label === undefined) {
+            item.label = S(item.key).humanize().titleCase().s
           }
 
           let customEvent = {}
