@@ -176,12 +176,12 @@ class TableComp extends Component {
     return (
       <React.Fragment>
 
-        <div>
+        <div style={{marginBottom: 10}}>
           {reloadButon ?
             <Button
               shape="circle" onClick={() => {
               this.reload()
-            }} icon="reload"/> : null}
+            }} icon="reload">Refresh</Button> : null}
         </div>
 
         <Table
