@@ -181,7 +181,7 @@ class TableComp extends Component {
             <Button
               shape="circle" onClick={() => {
               this.reload()
-            }} icon="reload">Refresh</Button> : null}
+            }} icon="reload"/> : null}
         </div>
 
         <Table
