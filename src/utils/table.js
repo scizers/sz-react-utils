@@ -42,6 +42,8 @@ class TableComp extends Component {
       dataSearchParams: params
     })
 
+    params.count = params.results
+
     let data = await this.props.apiRequest({...params})
 
     let pagination = {...this.state.pagination}
