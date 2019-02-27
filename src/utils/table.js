@@ -195,8 +195,10 @@ class TableComp extends Component {
           dataSource={this.state.data}
           pagination={{
             ...this.state.pagination,
-            pageSizeOptions: ['20', '25', '50', '100', '1000'],
-            showSizeChanger: true
+            defaultPageSize: 10,
+            pageSizeOptions: ['10', '25', '50', '100'],
+            showSizeChanger: true,
+            ...this.props.pagination
           }}
           onChange={this.handleTableChange}
           loading={this.state.loading}

@@ -65,3 +65,19 @@ return (
 )
 
 ```
+
+
+```jsx harmony
+
+
+  <TableComp
+            reloadButon={true}
+            pagination={{
+              showSizeChanger: true,
+              defaultPageSize: 50,
+              pageSizeOptions: ['10', '20', '50', '100' , '1000']
+            }}
+            ref={this.table} columns={columns} extraProps={{ scroll: { x: 600 }, loading }}
+            apiRequest={(params) => this.apiRequest(params, columns)}/>
+    
+```
