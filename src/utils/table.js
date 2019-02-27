@@ -12,6 +12,7 @@ class TableComp extends Component {
 
   state = {
     data: [],
+    size: 'small',
     columns: [],
     pagination: {},
     loading: true,
@@ -48,7 +49,8 @@ class TableComp extends Component {
     this.setState({
       loading: false,
       data: data.data,
-      pagination
+      pagination,
+
     })
 
   }
@@ -172,10 +174,11 @@ class TableComp extends Component {
     const { columns } = this.state
     const { extraProps, reloadButon } = this.props
 
+    //ff
     return (
       <React.Fragment>
 
-        <div>
+        <div style={{marginBottom: 10}}>
           {reloadButon ?
             <Button
               shape="circle" onClick={() => {
@@ -188,6 +191,7 @@ class TableComp extends Component {
           {...extraProps}
           columns={columns}
           rowKey={record => record._id}
+          size={this.state.size}
           dataSource={this.state.data}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
