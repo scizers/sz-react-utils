@@ -124,7 +124,14 @@ class SelectMy extends Component {
 
     let x = this.props
 
-    return (<Select {...x} onChange={x.item.onChange}>
+    if (!x.item.showSearch) x.item.showSearch = false
+    return (<Select {...x}
+                    showSearch={x.item.showSearch}
+                    onChange={x.item.onChange}
+                    filterOption={(input, option) => {
+                      return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }}
+    >
       {
         x.item.options.map((val, index) => {
           if (typeof val == 'object') {
