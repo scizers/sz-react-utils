@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
   Table,
   Input, Button, Icon
@@ -21,7 +21,7 @@ class TableComp extends Component {
   }
 
   handleTableChange = (pagination, filters, sorter) => {
-    const pager = { ...this.state.pagination }
+    const pager = {...this.state.pagination}
     pager.current = pagination.current
     this.setState({
       pagination: pager
@@ -42,9 +42,9 @@ class TableComp extends Component {
       dataSearchParams: params
     })
 
-    let data = await this.props.apiRequest({ ...params })
+    let data = await this.props.apiRequest({...params})
 
-    let pagination = { ...this.state.pagination }
+    let pagination = {...this.state.pagination}
     pagination.total = data.total
     this.setState({
       loading: false,
@@ -79,27 +79,27 @@ class TableComp extends Component {
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
+          style={{width: 188, marginBottom: 8, display: 'block'}}
         />
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{width: 90, marginRight: 8}}
         >
           Search
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
-          style={{ width: 90 }}
+          style={{width: 90}}
         >
           Reset
         </Button>
       </div>)
     },
-    filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>,
+    filterIcon: filtered => <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select())
@@ -109,7 +109,7 @@ class TableComp extends Component {
       return (
         <React.Fragment>
           {!!text ? (<Highlighter
-            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
             searchWords={[this.state.searchText]}
             autoEscape
             textToHighlight={text.toString()}
@@ -120,11 +120,11 @@ class TableComp extends Component {
   })
   handleSearch = (selectedKeys, confirm) => {
     confirm()
-    this.setState({ searchText: selectedKeys[0] })
+    this.setState({searchText: selectedKeys[0]})
   }
   handleReset = (clearFilters) => {
     clearFilters()
-    this.setState({ searchText: '' })
+    this.setState({searchText: ''})
   }
 
   reload = () => {
@@ -149,7 +149,7 @@ class TableComp extends Component {
 
 
       if (i.searchTextName) {
-        i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
+        i = {...this.getColumnSearchProps(i.searchTextName), ...i}
       }
 
       if (i.dataIndex === undefined && i.key !== 'actions' && i.type !== 'actions') {
@@ -171,8 +171,8 @@ class TableComp extends Component {
   }
 
   render () {
-    const { columns } = this.state
-    const { extraProps, reloadButon } = this.props
+    const {columns} = this.state
+    const {extraProps, reloadButon} = this.props
 
     //ff
     return (
@@ -193,7 +193,11 @@ class TableComp extends Component {
           rowKey={record => record._id}
           size={this.state.size}
           dataSource={this.state.data}
-          pagination={this.state.pagination}
+          pagination={{
+            ...this.state.pagination,
+            pageSizeOptions: ['20', '25', '50', '100', '1000'],
+            showSizeChanger: true
+          }}
           onChange={this.handleTableChange}
           loading={this.state.loading}
         />
