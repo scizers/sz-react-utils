@@ -12,6 +12,7 @@ class TableComp extends Component {
 
   state = {
     data: [],
+    size: 'small',
     columns: [],
     pagination: {},
     loading: true,
@@ -48,7 +49,8 @@ class TableComp extends Component {
     this.setState({
       loading: false,
       data: data.data,
-      pagination
+      pagination,
+
     })
 
   }
@@ -189,6 +191,7 @@ class TableComp extends Component {
           {...extraProps}
           columns={columns}
           rowKey={record => record._id}
+          size={this.state.size}
           dataSource={this.state.data}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
