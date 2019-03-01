@@ -125,9 +125,13 @@ class SelectMy extends Component {
     let x = this.props
 
     if (!x.item.showSearch) x.item.showSearch = false
+    if (!x.item.disabled) x.item.disabled = false
+    //console.log(x.item)
     return (<Select {...x}
+
                     showSearch={x.item.showSearch}
                     onChange={x.item.onChange}
+                    disabled={x.item.disabled}
                     filterOption={(input, option) => {
                       return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }}
