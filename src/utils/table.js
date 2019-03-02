@@ -66,7 +66,7 @@ class TableComp extends Component {
         clearFilters
       } = pro
 
-      return (<div className={{
+      return (<div style={{
         padding: '8px',
         borderRadius: '4px',
         backgroundColor: '#ffffff',
@@ -93,7 +93,10 @@ class TableComp extends Component {
           Search
         </Button>
         <Button
-          onClick={() => this.handleReset(clearFilters)}
+          onClick={() => {
+            console.log(clearFilters)
+            this.handleReset(clearFilters)
+          }}
           size="small"
           style={{width: 90}}
         >
@@ -139,12 +142,15 @@ class TableComp extends Component {
   }
 
   constructor (props) {
+
     super(props)
     this.fetch2 = memoizeOne(this.fetch)
     // this.fetch2 = (this.fetch)
   }
 
   componentDidMount () {
+
+    const {pagination} = this.props
 
     let x = []
     _.each(this.props.columns, (i) => {
@@ -169,7 +175,10 @@ class TableComp extends Component {
       columns: x
     })
 
-    this.fetch2()
+    this.fetch2({
+      results: pagination.defaultPageSize
+    })
+
   }
 
   render () {
