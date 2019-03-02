@@ -150,7 +150,13 @@ class TableComp extends Component {
 
   componentDidMount () {
 
-    const {pagination} = this.props
+    let {pagination} = this.props
+
+    if (!pagination) {
+      pagination = {
+        defaultPageSize: 10
+      }
+    }
 
     let x = []
     _.each(this.props.columns, (i) => {
