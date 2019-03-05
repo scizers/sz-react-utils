@@ -1,10 +1,12 @@
 import moment from 'moment'
 import React, { Component, PureComponent } from 'react'
 
-import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch } from 'antd'
+import {Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch, Radio} from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import S from "string";
+
+const RadioGroup = Radio.Group;
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -101,6 +103,12 @@ class SimpleFormElement extends Component {
         if (!x.options) x.options = []
         if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
         return <SelectMy {...x}/>
+
+      case 'radioGroup':
+        if (!x.options) x.options = []
+        //if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
+        return <RadioGroup options={x.options} onChange={x.item.onChange}/>
+
 
       default:
         return <Input trigger={'onBlur'} {...x} />
