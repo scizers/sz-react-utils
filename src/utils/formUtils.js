@@ -1,12 +1,12 @@
 import moment from 'moment'
 import React, { Component, PureComponent } from 'react'
 
-import {Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch, Radio} from 'antd'
+import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch, Radio } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import S from "string";
+import S from 'string'
 
-const RadioGroup = Radio.Group;
+const RadioGroup = Radio.Group
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -100,6 +100,9 @@ class SimpleFormElement extends Component {
         return <Switch {...extra} {...x}/>
 
       case 'select':
+
+        console.log(x)
+
         if (!x.options) x.options = []
         if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
         return <SelectMy {...x}/>
@@ -117,6 +120,7 @@ class SimpleFormElement extends Component {
 
   render () {
     const { item } = this.props
+
     const { type } = item
     return (
       <React.Fragment>
@@ -297,6 +301,7 @@ class getAllFormFields extends Component {
 
 
           if (!!item.type) inputProps.type = item.type
+          if (!!item.mode) inputProps.mode = item.mode
           if (!!item.rows) inputProps.rows = item.rows
 
           if (item.type === 'file') {
