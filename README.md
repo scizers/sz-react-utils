@@ -1,70 +1,94 @@
 # sz-react-utils
 
 
-### Handing Forms
-
+## Handing Forms
 ```jsx harmony
 
 import {FormUtils} from 'sz-react-utils';
 
-/*
-* -----
-* ---
-* 
-* */
 
-let inputTypes = {
-  fields: [
-    {
-      key: 'firstName',
-      label: 'First Name' // optional
-    },
-    {key: 'middlename'},
-    {key: 'lastname'},
-    {
-      key: 'gender',
-      type: 'select',
-      options: ['Male', 'Female', 'other', 'Prefer not to say']
-    },
-    {
-      key: 'gender',
-      type: 'select',
-      options: [
-        {_id: 'one', display: 'One Name'}
+class formExample extends Component() {
+
+
+  render () {
+
+    const formItemLayout = {
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 8},
+        md: {span: 8}
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 16},
+        md: {span: 12}
+      }
+    }
+
+    const submitFormLayout = {
+      wrapperCol: {
+        xs: {span: 24, offset: 0},
+        sm: {span: 10, offset: 7},
+        md: {span: 12, offset: 8}
+      }
+    }
+
+
+    const {form: {getFieldDecorator, getFieldValue, setFieldsValue}} = this.props
+    let inputTypes = {
+      fields: [
+        {
+          key: 'firstName',
+          label: 'First Name' // optional
+        },
+        {
+          key: 'gender',
+          type: 'select',
+          options: ['Male', 'Female', 'other', 'Prefer not to say'],
+          onChange: (gender) => {
+            setFieldsValue({gender})
+          }
+        },
+        {
+          key: 'makes',
+          type: 'select',
+          placeholder: 'Enter Your Make',
+          keyAccessor: x => x._id,
+          valueAccessor: x => x.name,
+          options: this.state.options,
+          onChange: (make) => {
+            setFieldsValue({make})
+          }
+        },
+        {
+          key: 'image',
+          type: 'file',
+          limit: 2 // default is 1
+        },
       ]
-    },
-    {
-      key: 'image',
-      type: 'file',
-      limit: 2 // default is 1
-    },
+    }
 
-  ]
+    return (
+      <React.Fragment>
+
+        <FormUtils inputSchema={inputTypes} 
+                   formItemLayout={formItemLayout} // optional 
+                   getFieldDecorator={getFieldDecorator}
+        />
+
+
+      </React.Fragment>
+    )
+  }
+
 }
 
 
-/*
-* -----
-* ---
-* 
-* */
 
-
-const formProps = {
-  getFieldDecorator, 
-  getFieldValue , // required for upload to work
-  apiurl // required for upload to work
-}
-
-return (
-      <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-        <FormUtils inputSchema={inputTypes} {...formProps}/>
-      </Form>
- 
-
-)
 
 ```
+
+
 
 
 ```jsx harmony
