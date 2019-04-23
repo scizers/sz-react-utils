@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   Table,
   Input, Button, Icon
@@ -8,7 +8,7 @@ import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
 
-class TableComp extends Component {
+class TableMain extends Component {
 
   state = {
     data: [],
@@ -21,7 +21,7 @@ class TableComp extends Component {
   }
 
   handleTableChange = (pagination, filters, sorter) => {
-    const pager = {...this.state.pagination}
+    const pager = { ...this.state.pagination }
     pager.current = pagination.current
     this.setState({
       pagination: pager
@@ -44,14 +44,14 @@ class TableComp extends Component {
 
     params.count = params.results
 
-    let data = await this.props.apiRequest({...params})
+    let data = await this.props.apiRequest({ ...params })
 
-    let pagination = {...this.state.pagination}
+    let pagination = { ...this.state.pagination }
     pagination.total = data.total
     this.setState({
       loading: false,
       data: data.data,
-      pagination,
+      pagination
 
     })
 
@@ -81,14 +81,14 @@ class TableComp extends Component {
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{width: 188, marginBottom: 8, display: 'block'}}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
           size="small"
-          style={{width: 90, marginRight: 8}}
+          style={{ width: 90, marginRight: 8 }}
         >
           Search
         </Button>
@@ -98,13 +98,13 @@ class TableComp extends Component {
             this.handleReset(clearFilters)
           }}
           size="small"
-          style={{width: 90}}
+          style={{ width: 90 }}
         >
           Reset
         </Button>
       </div>)
     },
-    filterIcon: filtered => <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>,
+    filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select())
@@ -114,7 +114,7 @@ class TableComp extends Component {
       return (
         <React.Fragment>
           {!!text ? (<Highlighter
-            highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[this.state.searchText]}
             autoEscape
             textToHighlight={text.toString()}
@@ -123,17 +123,23 @@ class TableComp extends Component {
       )
     }
   })
+
   handleSearch = (selectedKeys, confirm) => {
     confirm()
-    this.setState({searchText: selectedKeys[0]})
+    this.setState({ searchText: selectedKeys[0] })
   }
+
   handleReset = (clearFilters) => {
     clearFilters()
-    this.setState({searchText: ''})
+    this.setState({ searchText: '' })
   }
 
   reload = () => {
-    this.fetch(this.state.dataSearchParams)
+
+    let {  apiRequest } = this.props
+    if (!!apiRequest) {
+      this.fetch(this.state.dataSearchParams)
+    }
   }
 
   setDataState = async () => {
@@ -142,15 +148,13 @@ class TableComp extends Component {
   }
 
   constructor (props) {
-
     super(props)
     this.fetch2 = memoizeOne(this.fetch)
-    // this.fetch2 = (this.fetch)
   }
 
   componentDidMount () {
 
-    let {pagination} = this.props
+    let { pagination, apiRequest } = this.props
 
     if (!pagination) {
       pagination = {
@@ -163,7 +167,7 @@ class TableComp extends Component {
 
 
       if (i.searchTextName) {
-        i = {...this.getColumnSearchProps(i.searchTextName), ...i}
+        i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
       }
 
       if (i.dataIndex === undefined && i.key !== 'actions' && i.type !== 'actions') {
@@ -181,21 +185,21 @@ class TableComp extends Component {
       columns: x
     })
 
-    this.fetch2({
-      results: pagination.defaultPageSize
-    })
+    if (!!apiRequest) {
+      this.fetch2({
+        results: pagination.defaultPageSize
+      })
+    }
 
   }
 
-  render () {
-    const {columns} = this.state
-    const {extraProps, reloadButon} = this.props
-
-    //ff
+  renderDynamic () {
+    const { columns } = this.state
+    const { extraProps, reloadButon } = this.props
     return (
       <React.Fragment>
 
-        <div style={{marginBottom: 10}}>
+        <div style={{ marginBottom: 10 }}>
           {reloadButon ?
             <Button
               shape="circle" onClick={() => {
@@ -220,10 +224,60 @@ class TableComp extends Component {
           onChange={this.handleTableChange}
           loading={this.state.loading}
         />
+
       </React.Fragment>
     )
-
   }
+
+  renderStatic () {
+    const { columns } = this.state
+    const { extraProps, dataSource, reloadButon } = this.props
+    return (
+      <React.Fragment>
+
+        <div style={{ marginBottom: 10 }}>
+          {reloadButon ?
+            <Button
+              shape="circle" onClick={() => {
+              this.reload()
+            }} icon="reload"/> : null}
+        </div>
+
+        <Table
+          bordered
+          {...extraProps}
+          columns={columns}
+          rowKey={record => record._id}
+          size={this.state.size}
+          dataSource={dataSource}
+          pagination={{
+            ...this.state.pagination,
+            defaultPageSize: 10,
+            pageSizeOptions: ['10', '25', '50', '100'],
+            showSizeChanger: true,
+            ...this.props.pagination
+          }}
+          onChange={() => {
+
+          }}
+          loading={this.props.loading}
+        />
+
+      </React.Fragment>
+    )
+  }
+
+  render () {
+
+    const { apiRequest } = this.props
+    console.log(apiRequest)
+
+    return (
+      <React.Fragment>{!!apiRequest ? this.renderDynamic() : this.renderStatic()}</React.Fragment>
+    )
+  }
+
 }
 
-export default TableComp
+
+export default TableMain
