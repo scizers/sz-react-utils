@@ -342,14 +342,6 @@ class getAllFormFields extends Component {
               getValueFromEvent: this.onChange
             }
 
-            if (item.editorProps) {
-              inputProps = {
-                ...inputProps,
-                ...item.editorProps
-              }
-
-            }
-
           }
 
           return (
