@@ -3,6 +3,7 @@ import React, { Component, PureComponent } from 'react'
 
 import ReactQuill from 'react-quill' // ES6
 import 'react-quill/dist/quill.snow.css' // ES6
+import 'react-quill/dist/quill.bubble.css' // ES6
 
 
 import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch, Radio } from 'antd'
@@ -339,6 +340,14 @@ class getAllFormFields extends Component {
               initialValue: item.initialValue ? item.initialValue : '',
               valuePropName: 'value',
               getValueFromEvent: this.onChange
+            }
+
+            if (item.editorProps) {
+              inputProps = {
+                ...inputProps,
+                ...item.editorProps
+              }
+
             }
 
           }
