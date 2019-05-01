@@ -60,6 +60,15 @@ class formExample extends Component() {
             setFieldsValue({make})
           }
         },
+        {
+          label: 'Due Date  ',
+          key: 'dueDate',
+          required: true,
+          type: 'date',
+          customProps: {
+           disabledDate: d => !d || d.isBefore(moment().add(-1, 'day'))
+          }
+        },
          {
             key: 'desc',
             type: 'editor', // will produces a wysiwyg editor 

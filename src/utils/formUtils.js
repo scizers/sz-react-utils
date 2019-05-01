@@ -250,7 +250,6 @@ class getAllFormFields extends Component {
     }
   }
 
-
   render () {
 
     const { inputSchema, getFieldDecorator, children, formItemLayout, apiurl } = this.props
@@ -308,7 +307,6 @@ class getAllFormFields extends Component {
             inputProps.options = ['Choose']
           }
 
-
           if (!!item.type) inputProps.type = item.type
           if (!!item.mode) inputProps.mode = item.mode
           if (!!item.rows) inputProps.rows = item.rows
@@ -342,6 +340,12 @@ class getAllFormFields extends Component {
               getValueFromEvent: this.onChange
             }
 
+          }
+
+
+          inputProps = {
+            ...inputProps,
+            ...item.customProps
           }
 
           return (
