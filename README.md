@@ -1,7 +1,7 @@
 # sz-react-utils
 
-
 ## Handing Forms
+
 ```jsx harmony
 
 import {FormUtils} from 'sz-react-utils';
@@ -52,6 +52,7 @@ class formExample extends Component() {
         {
           key: 'makes',
           type: 'select',
+          mode : 'multiple',
           placeholder: 'Enter Your Make',
           keyAccessor: x => x._id,
           valueAccessor: x => x.name,
