@@ -6,10 +6,7 @@
 
 import {FormUtils} from 'sz-react-utils';
 
-
 class formExample extends Component() {
-
-
   render () {
 
     const formItemLayout = {
@@ -67,32 +64,37 @@ class formExample extends Component() {
           required: true,
           type: 'date',
           customProps: {
-           disabledDate: d => !d || d.isBefore(moment().add(-1, 'day'))
+            disabledDate: d => !d || d.isBefore(moment().add(-1, 'day'))
           }
         },
-         {
-            key: 'desc',
-            type: 'editor', // will produces a wysiwyg editor 
-            placeholder: 'Enter Your Make',
-            editorProps: {
-              theme: 'snow',
-              modules: {
-                toolbar: [
-                  [{ 'header': [1, 2, false] }],
-                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-                  ['link', 'image'],
-                  ['clean']
-                ]
-              },
-              formats: [
-                'header',
-                'bold', 'italic', 'underline', 'strike', 'blockquote',
-                'list', 'bullet', 'indent',
-                'link', 'image'
+        {
+          key: 'desc',
+          type: 'editor', // will produces a wysiwyg editor 
+          placeholder: 'Enter Your Make',
+          editorProps: {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, false] }],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                ['link', 'image'],
+                ['clean']
               ]
-            } // react quill props - optional
-          },
+            },
+            formats: [
+              'header',
+              'bold', 'italic', 'underline', 'strike', 'blockquote',
+              'list', 'bullet', 'indent',
+              'link', 'image'
+            ]
+          } // react quill props - optional
+        },
+        {
+          key: 'objectives',
+          type: 'ckeditor', // will produces a ckeditor wysiwyg editor 
+
+        },
         {
           key: 'image',
           type: 'file',
@@ -104,7 +106,7 @@ class formExample extends Component() {
     return (
       <React.Fragment>
 
-        <FormUtils inputSchema={inputTypes} 
+        <FormUtils inputSchema={inputTypes}
                    formItemLayout={formItemLayout} // optional 
                    getFieldDecorator={getFieldDecorator}
         />
@@ -113,11 +115,7 @@ class formExample extends Component() {
       </React.Fragment>
     )
   }
-
 }
-
-
-
 
 ```
 
