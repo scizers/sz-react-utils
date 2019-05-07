@@ -94,7 +94,7 @@ class TableMain extends Component {
         </Button>
         <Button
           onClick={() => {
-            console.log(clearFilters)
+            // console.log(clearFilters)
             this.handleReset(clearFilters)
           }}
           size="small"
@@ -270,7 +270,6 @@ class TableMain extends Component {
   render () {
 
     const { apiRequest } = this.props
-    console.log(apiRequest)
 
     return (
       <React.Fragment>{!!apiRequest ? this.renderDynamic() : this.renderStatic()}</React.Fragment>
