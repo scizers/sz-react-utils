@@ -119,9 +119,6 @@ class formExample extends Component() {
 
 ```
 
-
-
-
 ```jsx harmony
 
 
@@ -136,3 +133,12 @@ class formExample extends Component() {
             apiRequest={(params) => this.apiRequest(params, columns)}/>
     
 ```
+
+
+Incase of memory out of heap
+```
+
+export NODE_OPTIONS=--max_old_space_size=4096
+
+```
+
