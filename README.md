@@ -147,15 +147,6 @@ class formExample extends Component() {
         )
       },
       {
-        title: 'Photo',
-        key: 'profilePic',
-        dataIndex: 'profilePic',
-        render: (val) => {
-          return <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-
-        }
-      },
-      {
         title: 'ID',
         key:
           'id',
@@ -325,7 +316,7 @@ class formExample extends Component() {
 
 
     ]
-
+ 
 
 
   <TableComp

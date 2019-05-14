@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {Button, DatePicker, Icon, Input, Table} from 'antd'
+import React, { Component } from 'react'
+import { Button, DatePicker, Icon, Input, Table } from 'antd'
 import _ from 'lodash'
 import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
 
-const {RangePicker} = DatePicker
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker
 
 class TableMain extends Component {
 
@@ -21,7 +21,7 @@ class TableMain extends Component {
   }
 
   handleTableChange = (pagination, filters, sorter) => {
-    const pager = {...this.state.pagination}
+    const pager = { ...this.state.pagination }
     pager.current = pagination.current
     this.setState({
       pagination: pager
@@ -44,9 +44,9 @@ class TableMain extends Component {
 
     params.count = params.results
 
-    let data = await this.props.apiRequest({...params})
+    let data = await this.props.apiRequest({ ...params })
 
-    let pagination = {...this.state.pagination}
+    let pagination = { ...this.state.pagination }
     pagination.total = data.total
     this.setState({
       loading: false,
@@ -81,14 +81,14 @@ class TableMain extends Component {
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{width: 188, marginBottom: 8, display: 'block'}}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
           size="small"
-          style={{width: 90, marginRight: 8}}
+          style={{ width: 90, marginRight: 8 }}
         >
           Search
         </Button>
@@ -97,13 +97,13 @@ class TableMain extends Component {
             this.handleReset(clearFilters)
           }}
           size="small"
-          style={{width: 90}}
+          style={{ width: 90 }}
         >
           Reset
         </Button>
       </div>)
     },
-    filterIcon: filtered => <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>,
+    filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select())
@@ -113,7 +113,7 @@ class TableMain extends Component {
       return (
         <React.Fragment>
           {!!text ? (<Highlighter
-            highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[this.state.searchText]}
             autoEscape
             textToHighlight={text.toString()}
@@ -141,7 +141,7 @@ class TableMain extends Component {
       }}>
 
         <RangePicker
-          style={{width: 250, marginBottom: 8, display: 'block'}}
+          style={{ width: 250, marginBottom: 8, display: 'block' }}
           ref={node => {
             this.searchInput = node
           }}
@@ -152,7 +152,7 @@ class TableMain extends Component {
             })
           }}/>
 
-        <div style={{textAlign: 'left'}}>
+        <div style={{ flex: 1, justifyContent: 'flex-end' }}>
           <Button
             type="primary"
             onClick={() => {
@@ -169,7 +169,7 @@ class TableMain extends Component {
             }}
             icon="search"
             size="small"
-            style={{width: 90, marginRight: 8}}
+            style={{ width: 90, marginRight: 8 }}
           >
             Search
           </Button>
@@ -185,7 +185,7 @@ class TableMain extends Component {
               clearFilters()
             }}
             size="small"
-            style={{width: 90}}
+            style={{ width: 90 }}
           >
             Reset
           </Button>
@@ -194,9 +194,9 @@ class TableMain extends Component {
       </div>)
     },
     filterIcon: x => {
-      let {dateFilters} = this.state
+      let { dateFilters } = this.state
       let filtered = dateFilters && dateFilters[dataIndex]
-      return <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>
+      return <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>
     },
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
@@ -207,17 +207,17 @@ class TableMain extends Component {
 
   handleSearch = (selectedKeys, confirm) => {
     confirm()
-    this.setState({searchText: selectedKeys[0]})
+    this.setState({ searchText: selectedKeys[0] })
   }
 
   handleReset = (clearFilters) => {
     clearFilters()
-    this.setState({searchText: ''})
+    this.setState({ searchText: '' })
   }
 
   reload = () => {
 
-    let {apiRequest} = this.props
+    let { apiRequest } = this.props
     if (!!apiRequest) {
       this.fetch(this.state.dataSearchParams)
     }
@@ -235,7 +235,7 @@ class TableMain extends Component {
 
   componentDidMount () {
 
-    let {pagination, apiRequest} = this.props
+    let { pagination, apiRequest } = this.props
 
     if (!pagination) {
       pagination = {
@@ -247,11 +247,11 @@ class TableMain extends Component {
     _.each(this.props.columns, (i) => {
 
       if (i.searchTextName) {
-        i = {...this.getColumnSearchProps(i.searchTextName), ...i}
+        i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
       }
 
       if (i.searchDateName) {
-        i = {...this.getColumnDateSearchProps(i.searchDateName), ...i}
+        i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
       }
 
       if (i.dataIndex === undefined && i.key !== 'actions' && i.type !== 'actions') {
@@ -278,12 +278,12 @@ class TableMain extends Component {
   }
 
   renderDynamic () {
-    const {columns} = this.state
-    const {extraProps, reloadButon} = this.props
+    const { columns } = this.state
+    const { extraProps, reloadButon } = this.props
     return (
       <React.Fragment>
 
-        <div style={{marginBottom: 10}}>
+        <div style={{ marginBottom: 10 }}>
           {reloadButon ?
             <Button
               shape="circle" onClick={() => {
@@ -314,12 +314,12 @@ class TableMain extends Component {
   }
 
   renderStatic () {
-    const {columns} = this.state
-    const {extraProps, dataSource, reloadButon} = this.props
+    const { columns } = this.state
+    const { extraProps, dataSource, reloadButon } = this.props
     return (
       <React.Fragment>
 
-        <div style={{marginBottom: 10}}>
+        <div style={{ marginBottom: 10 }}>
           {reloadButon ?
             <Button
               shape="circle" onClick={() => {
@@ -353,7 +353,7 @@ class TableMain extends Component {
 
   render () {
 
-    const {apiRequest} = this.props
+    const { apiRequest } = this.props
 
     return (
       <React.Fragment>{!!apiRequest ? this.renderDynamic() : this.renderStatic()}</React.Fragment>
