@@ -121,6 +121,212 @@ class formExample extends Component() {
 
 ```jsx harmony
 
+    const columns = [
+
+      {
+        title: 'Action',
+        key: 'operation',
+        dataindex: 'operation',
+        width: 100,
+        render: (text, record) => (<React.Fragment>
+            <Tooltip title="Follow Ups">
+              <Button className={styles.btn}
+                      size={'small'}
+                      shape="circle" onClick={() => this.openFollowUps(record)} icon="calendar"/>
+            </Tooltip>
+            {/* <Tooltip title="Click To Edit Details">
+              <Button className={styles.btn}
+                      shape="circle"
+                      size={'small'}
+                      onClick={() => {
+                        dispatch(getUrlPushWrapper('desk.updateCousenlling', { id: record._id }))
+                      }} icon="edit"/>
+            </Tooltip>*/}
+
+          </React.Fragment>
+        )
+      },
+      {
+        title: 'Photo',
+        key: 'profilePic',
+        dataIndex: 'profilePic',
+        render: (val) => {
+          return <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+
+        }
+      },
+      {
+        title: 'ID',
+        key:
+          'id',
+        dataIndex:
+          'id',
+        sorter: true,
+        searchTextName:
+          'id',
+        filterRegex:
+          true
+      },
+      {
+        title: 'Student Name',
+        key: 'studentName',
+        dataIndex: 'studentName',
+        sorter: true,
+        searchTextName: 'studentName',
+        filterRegex: true
+      },
+      {
+        title: 'At Stage',
+        'key':
+          'atLevel',
+        'dataIndex':
+          'atLevel',
+        searchTextName:
+          'stage',
+        filterRegex:
+          true
+
+      },
+      {
+        title: 'DOB',
+        width: 100,
+        key: 'dob',
+        dataIndex: 'dob',
+        searchDateName: 'dob',
+        render: (val, record) => {
+          return (<div>{record.dateOfBirth ? moment(record.dateOfBirth).format('DD-MMM-YYYY') : ''}</div>)
+        }
+      },
+      {
+        title: 'Mobile',
+        key:
+          'mobile',
+        dataIndex:
+          'mobile',
+        searchTextName:
+          'mpbile',
+        filterRegex:
+          true
+
+      },
+      {
+        title: 'WhatsApp',
+        key:
+          'watsupp',
+        dataIndex:
+          'watsupp',
+        searchTextName:
+          'watsupp',
+        filterRegex:
+          true
+
+
+      },
+      {
+        title: 'Rating', key:
+          'rating', dataIndex:
+          'rating'
+      },
+      {
+        title: 'Case Status', key:
+          'status', dataIndex:
+          'status'
+      },
+      {
+        title: 'Counsellor',
+        key:
+          'counsellorId',
+        searchTextName:
+          'counsellor',
+        filterRegex:
+          true,
+        sorter:
+          true,
+        render:
+          (text, record) => {
+            return (
+              <div>{record.counsellorId ? record.counsellorId.name : ''}</div>)
+          }
+      },
+      {
+        title: 'Branch', key:
+          'studentBranch', render:
+          (text, record) => {
+            return (
+              <div>
+                {record.studentBranchId ? record.studentBranchId.branchName : ''}
+              </div>)
+          }
+      },
+      {
+        title: 'Preference',
+        key:
+          'preference',
+        render:
+          (val, row) => {
+            return (row.totalPreference ? <ul className={common.ul}>
+                {
+                  row.totalPreference.map((val, inde) => {
+                    return <li key={inde}>{val.country}</li>
+                  })
+                }
+              </ul> : null
+            )
+
+          }
+      },
+      {
+        title: 'Follow Up', key:
+          'followUp', width:
+          200, dataIndex:
+          'followUp', render:
+          (text, record) => {
+            return (
+
+              <LatestFollowUp info={text}/>
+
+            )
+
+          }
+      },
+      {
+        title: 'Last Updated By', width:
+          150, key:
+          'updatedByUser', dataIndex:
+          'updatedByUser', render:
+          (text, record) => {
+            return (
+              <div>
+                <div className={common.user}>{text ? text.name : ''}</div>
+                <small>{text ? moment(text.time).format('lll') : ''}</small>
+              </div>
+
+            )
+          }
+      },
+      {
+        title: 'Action',
+        key:
+          'operationId',
+        dataindex:
+          'operationId',
+        width:
+          100,
+        render:
+          () => (<React.Fragment>
+              <Tooltip title="Edit Details ">
+                <Button className={styles.btn}
+                        size={'small'}
+                        shape="circle" icon="delete"/>
+              </Tooltip>
+            </React.Fragment>
+          )
+      }
+
+
+    ]
+
+
 
   <TableComp
             reloadButon={true}
