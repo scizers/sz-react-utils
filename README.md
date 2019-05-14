@@ -134,29 +134,16 @@ class formExample extends Component() {
                       size={'small'}
                       shape="circle" onClick={() => this.openFollowUps(record)} icon="calendar"/>
             </Tooltip>
-            {/* <Tooltip title="Click To Edit Details">
-              <Button className={styles.btn}
-                      shape="circle"
-                      size={'small'}
-                      onClick={() => {
-                        dispatch(getUrlPushWrapper('desk.updateCousenlling', { id: record._id }))
-                      }} icon="edit"/>
-            </Tooltip>*/}
-
           </React.Fragment>
         )
       },
       {
         title: 'ID',
-        key:
-          'id',
-        dataIndex:
-          'id',
+        key: 'id',
+        dataIndex: 'id',
         sorter: true,
-        searchTextName:
-          'id',
-        filterRegex:
-          true
+        searchTextName: 'id',
+        filterRegex: true
       },
       {
         title: 'Student Name',
@@ -168,155 +155,130 @@ class formExample extends Component() {
       },
       {
         title: 'At Stage',
-        'key':
-          'atLevel',
-        'dataIndex':
-          'atLevel',
-        searchTextName:
-          'stage',
-        filterRegex:
-          true
-
+        'key': 'atLevel',
+        'dataIndex': 'atLevel',
+        sorter: true,
+        filters: [
+          { text: 'Front Desk', value: 'Front Desk' },
+          { text: 'Counselling Desk', value: 'Counselling Desk' },
+          { text: 'Registration Desk', value: 'Registration Desk' },
+          { text: 'Application Desk', value: 'Application Desk' },
+          { text: 'Visa Desk', value: 'Visa Desk' },
+          { text: 'Claim Desk', value: 'Claim Desk' },
+          { text: 'Dead Inquiry', value: 'Dead Inquiry' }
+        ]
       },
       {
         title: 'DOB',
         width: 100,
-        key: 'dob',
-        dataIndex: 'dob',
-        searchDateName: 'dob',
+        sorter: true,
+        key: 'dateOfBirth',
+        dataIndex: 'dateOfBirth',
+        searchDateName: 'dateOfBirth',
         render: (val, record) => {
           return (<div>{record.dateOfBirth ? moment(record.dateOfBirth).format('DD-MMM-YYYY') : ''}</div>)
         }
       },
       {
         title: 'Mobile',
-        key:
-          'mobile',
-        dataIndex:
-          'mobile',
-        searchTextName:
-          'mpbile',
-        filterRegex:
-          true
-
+        key: 'mobile',
+        dataIndex: 'mobile',
+        searchTextName: 'mobile',
+        filterRegex: true
       },
       {
         title: 'WhatsApp',
-        key:
-          'watsupp',
-        dataIndex:
-          'watsupp',
-        searchTextName:
-          'watsupp',
-        filterRegex:
-          true
-
-
+        key: 'watsupp',
+        dataIndex: 'watsupp',
+        searchTextName: 'watsupp',
+        filterRegex: true
       },
       {
-        title: 'Rating', key:
-          'rating', dataIndex:
-          'rating'
+        title: 'Rating',
+        key: 'rating',
+        dataIndex: 'rating'
       },
       {
-        title: 'Case Status', key:
-          'status', dataIndex:
-          'status'
+        title: 'Case Status',
+        key: 'status',
+        dataIndex: 'status'
       },
       {
         title: 'Counsellor',
-        key:
-          'counsellorId',
-        searchTextName:
-          'counsellor',
-        filterRegex:
-          true,
-        sorter:
-          true,
-        render:
-          (text, record) => {
-            return (
-              <div>{record.counsellorId ? record.counsellorId.name : ''}</div>)
-          }
+        key: 'counsellorId',
+        searchTextName: 'counsellor',
+        filterRegex: true,
+        sorter: true,
+        render: (text, record) => {
+          return (
+            <div>{record.counsellorId ? record.counsellorId.name : ''}</div>)
+        }
       },
       {
-        title: 'Branch', key:
-          'studentBranch', render:
-          (text, record) => {
-            return (
-              <div>
-                {record.studentBranchId ? record.studentBranchId.branchName : ''}
-              </div>)
-          }
+        title: 'Branch',
+        key: 'studentBranch',
+        render: (text, record) => {
+          return (
+            <div>
+              {record.studentBranchId ? record.studentBranchId.branchName : ''}
+            </div>)
+        }
       },
       {
         title: 'Preference',
-        key:
-          'preference',
-        render:
-          (val, row) => {
-            return (row.totalPreference ? <ul className={common.ul}>
-                {
-                  row.totalPreference.map((val, inde) => {
-                    return <li key={inde}>{val.country}</li>
-                  })
-                }
-              </ul> : null
-            )
+        key: 'preference',
+        render: (val, row) => {
+          return (row.totalPreference ? <ul className={common.ul}>
+              {
+                row.totalPreference.map((val, inde) => {
+                  return <li key={inde}>{val.country}</li>
+                })
+              }
+            </ul> : null
+          )
 
-          }
+        }
       },
       {
-        title: 'Follow Up', key:
-          'followUp', width:
-          200, dataIndex:
-          'followUp', render:
-          (text, record) => {
-            return (
-
-              <LatestFollowUp info={text}/>
-
-            )
-
-          }
+        title: 'Follow Up',
+        key: 'followUp',
+        width: 200,
+        dataIndex: 'followUp',
+        render: (text, record) => {
+          return (
+            <LatestFollowUp info={text}/>
+          )
+        }
       },
       {
-        title: 'Last Updated By', width:
-          150, key:
-          'updatedByUser', dataIndex:
-          'updatedByUser', render:
-          (text, record) => {
-            return (
-              <div>
-                <div className={common.user}>{text ? text.name : ''}</div>
-                <small>{text ? moment(text.time).format('lll') : ''}</small>
-              </div>
-
-            )
-          }
+        title: 'Last Updated By', width: 150,
+        key: 'updatedByUser',
+        dataIndex: 'updatedByUser',
+        render: (text, record) => {
+          return (
+            <div>
+              <div className={common.user}>{text ? text.name : ''}</div>
+              <small>{text ? moment(text.time).format('lll') : ''}</small>
+            </div>
+          )
+        }
       },
       {
         title: 'Action',
-        key:
-          'operationId',
-        dataindex:
-          'operationId',
-        width:
-          100,
-        render:
-          () => (<React.Fragment>
-              <Tooltip title="Edit Details ">
-                <Button className={styles.btn}
-                        size={'small'}
-                        shape="circle" icon="delete"/>
-              </Tooltip>
-            </React.Fragment>
-          )
+        key: 'operationId',
+        dataindex: 'operationId',
+        width: 100,
+        render: () => (<React.Fragment>
+            <Tooltip title="Edit Details ">
+              <Button className={styles.btn}
+                      size={'small'}
+                      shape="circle" icon="delete"/>
+            </Tooltip>
+          </React.Fragment>
+        )
       }
-
-
+      
     ]
- 
 
 
   <TableComp
