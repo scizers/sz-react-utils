@@ -233,6 +233,41 @@ class TableMain extends Component {
     this.fetch2 = memoizeOne(this.fetch)
   }
 
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(this.props.columns, prevProps.columns)) {
+
+      let x = []
+      _.each(this.props.columns, i => {
+        if (i.searchTextName) {
+          i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
+        }
+
+        if (i.searchDateName) {
+          i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
+        }
+
+        if (
+          i.dataIndex === undefined &&
+          i.key !== 'actions' &&
+          i.type !== 'actions'
+        ) {
+          i.dataIndex = i.key
+        }
+
+        if (i.title === undefined) {
+          i.title = S(i.dataIndex)
+            .humanize()
+            .titleCase().s
+        }
+        x.push(i)
+      })
+      this.setState({
+        columns: x
+      })
+
+    }
+  }
+
   componentDidMount () {
 
     let { pagination, apiRequest } = this.props
