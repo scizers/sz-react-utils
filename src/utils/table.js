@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import {
-  Table,
-  Input, Button, Icon
-} from 'antd'
+import { Button, DatePicker, Icon, Input, Table } from 'antd'
 import _ from 'lodash'
 import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
+
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker
 
 class TableMain extends Component {
 
@@ -17,7 +16,8 @@ class TableMain extends Component {
     pagination: {},
     loading: true,
     searchText: '',
-    dataSearchParams: {}
+    dataSearchParams: {},
+    dateFilters: {}
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -94,7 +94,6 @@ class TableMain extends Component {
         </Button>
         <Button
           onClick={() => {
-            console.log(clearFilters)
             this.handleReset(clearFilters)
           }}
           size="small"
@@ -124,6 +123,88 @@ class TableMain extends Component {
     }
   })
 
+  getColumnDateSearchProps = (dataIndex) => ({
+    filterDropdown: (pro) => {
+
+      let {
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters
+      } = pro
+
+      return (<div style={{
+        padding: '8px',
+        borderRadius: '4px',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, .15)'
+      }}>
+
+        <RangePicker
+          style={{ width: 250, marginBottom: 8, display: 'block' }}
+          ref={node => {
+            this.searchInput = node
+          }}
+          onChange={(date) => {
+            setSelectedKeys({
+              $gte: date[0].startOf('day').toDate(),
+              $lt: date[1].endOf('day').toDate()
+            })
+          }}/>
+
+        <div style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <Button
+            type="primary"
+            onClick={() => {
+
+              let dateFilters = _.clone(this.state.dateFilters)
+
+              dateFilters[dataIndex] = true
+
+              this.setState({
+                dateFilters
+              })
+
+              confirm()
+            }}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              let dateFilters = _.clone(this.state.dateFilters)
+
+              dateFilters[dataIndex] = false
+
+              this.setState({
+                dateFilters
+              })
+              clearFilters()
+            }}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </div>
+
+      </div>)
+    },
+    filterIcon: x => {
+      let { dateFilters } = this.state
+      let filtered = dateFilters && dateFilters[dataIndex]
+      return <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>
+    },
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.focus())
+      }
+    }
+  })
+
   handleSearch = (selectedKeys, confirm) => {
     confirm()
     this.setState({ searchText: selectedKeys[0] })
@@ -136,7 +217,7 @@ class TableMain extends Component {
 
   reload = () => {
 
-    let {  apiRequest } = this.props
+    let { apiRequest } = this.props
     if (!!apiRequest) {
       this.fetch(this.state.dataSearchParams)
     }
@@ -152,6 +233,41 @@ class TableMain extends Component {
     this.fetch2 = memoizeOne(this.fetch)
   }
 
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(this.props.columns, prevProps.columns)) {
+
+      let x = []
+      _.each(this.props.columns, i => {
+        if (i.searchTextName) {
+          i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
+        }
+
+        if (i.searchDateName) {
+          i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
+        }
+
+        if (
+          i.dataIndex === undefined &&
+          i.key !== 'actions' &&
+          i.type !== 'actions'
+        ) {
+          i.dataIndex = i.key
+        }
+
+        if (i.title === undefined) {
+          i.title = S(i.dataIndex)
+            .humanize()
+            .titleCase().s
+        }
+        x.push(i)
+      })
+      this.setState({
+        columns: x
+      })
+
+    }
+  }
+
   componentDidMount () {
 
     let { pagination, apiRequest } = this.props
@@ -165,9 +281,12 @@ class TableMain extends Component {
     let x = []
     _.each(this.props.columns, (i) => {
 
-
       if (i.searchTextName) {
         i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
+      }
+
+      if (i.searchDateName) {
+        i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
       }
 
       if (i.dataIndex === undefined && i.key !== 'actions' && i.type !== 'actions') {
@@ -270,7 +389,6 @@ class TableMain extends Component {
   render () {
 
     const { apiRequest } = this.props
-    console.log(apiRequest)
 
     return (
       <React.Fragment>{!!apiRequest ? this.renderDynamic() : this.renderStatic()}</React.Fragment>
@@ -278,6 +396,5 @@ class TableMain extends Component {
   }
 
 }
-
 
 export default TableMain
