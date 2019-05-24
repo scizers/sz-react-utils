@@ -59,7 +59,7 @@ class SimpleFormElement extends Component {
 
     switch (type) {
       case 'number':
-        return <InputNumber {...x} />
+        return <InputNumber {...x} {...item} />
 
       case 'date':
         return <DatePicker {...x} format={item.format}/>
