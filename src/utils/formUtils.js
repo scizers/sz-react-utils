@@ -49,17 +49,23 @@ class SimpleFormElement extends Component {
   section = (type) => {
 
     let x = this.props
+
+
     let {item, apiurl} = this.props
+    if (!item.disabled) item.disabled = false
+
 
     switch (type) {
       case 'number':
-        return <InputNumber {...x} />
+
+
+        return <InputNumber disabled={item.disabled} {...x} {...item}  />
 
       case 'date':
-        return <DatePicker {...x} format={item.format}/>
+        return <DatePicker disabled={item.disabled} {...x} format={item.format}/>
 
       case 'textArea':
-        return <TextArea {...x} rows={x.rows}/>
+        return <TextArea disabled={item.disabled} {...x} rows={x.rows}/>
 
       case 'file':
 
@@ -112,7 +118,7 @@ class SimpleFormElement extends Component {
 
 
       default:
-        return <Input trigger={'onBlur'} {...x} />
+        return <Input disabled={item.disabled} onChange={item.onChange} trigger={'onBlur'} {...x} />
     }
   }
 
@@ -138,7 +144,6 @@ class SelectDynamicComp extends Component {
     if (!x.item.disabled) x.item.disabled = false
     let options = x.item.options
 
-    console.log(x)
 
     let keyAccessor = x.keyAccessor ? x.keyAccessor : (val) => val.id
     let valueAccessor = x.valueAccessor ? x.valueAccessor : (val) => val.display
