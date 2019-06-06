@@ -36,21 +36,37 @@ const styles = {
   }
 }
 
+function getBase64 (file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+
 class SimpleFormElement extends Component {
 
   state = {
-    tempFiles: []
+    tempFiles: [],
+    previewImage: null,
+    previewVisible: false
   }
 
-  handlePreview = (file) => {
-    console.log(file)
+  handleCancel = () => this.setState({ previewVisible: false })
+
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
   }
 
-  handleChange = (v) => {
-
-    console.log(v)
-
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true
+    })
   }
+
+  handleChange = ({ fileList }) => this.setState({ fileList })
 
   section = (type) => {
 
@@ -59,7 +75,7 @@ class SimpleFormElement extends Component {
 
     switch (type) {
       case 'number':
-        return <InputNumber {...x} />
+        return <InputNumber {...x} {...item} />
 
       case 'date':
         return <DatePicker {...x} format={item.format}/>
@@ -82,7 +98,7 @@ class SimpleFormElement extends Component {
         let limit = 1
         if (!!item.limit) limit = item.limit
 
-        let { fileUploads, item: { key } } = x
+        let { fileUploads, item: { key, photos, updateDisable } } = x
 
         let uploadEnable = true
         if (fileUploads[key] !== undefined) {
@@ -91,21 +107,45 @@ class SimpleFormElement extends Component {
           }
         }
 
+        let listTypeProps = {}
+        let uploadButton = <Button><Icon type='upload'/> Select File</Button>
+
+        if (photos) {
+          listTypeProps = {
+            listType: 'picture-card',
+            onPreview: this.handlePreview,
+            onChange: this.handleChange
+          }
+          uploadButton = (<div>
+            <Icon type="plus"/>
+            <div className="ant-upload-text">Upload</div>
+          </div>)
+        }
+
         return (
+          <React.Fragment>
           <Upload
             name={'file'}
+              {...listTypeProps}
+
             action={`${apiurl}/filesUploader`}
             defaultFileList={item.defaultFileList}
-            showUploadList={true}
+              showUploadList={{
+                showPreviewIcon: true,
+                showRemoveIcon: !updateDisable
+              }}
             {...x}
           >
-            {uploadEnable ? (
-              <Button>
-                <Icon type='upload'/> Select File
-              </Button>
-            ) : null}
+              {uploadEnable && !updateDisable ? (uploadButton) : null}
 
           </Upload>
+            <Modal visible={this.state.previewVisible} footer={null}
+                   onCancel={this.handleCancel}>
+              <img alt="example" style={{ width: '100%' }}
+                   src={this.state.previewImage}/>
+            </Modal>
+
+          </React.Fragment>
         )
 
       case 'switch':
@@ -125,7 +165,6 @@ class SimpleFormElement extends Component {
         if (!x.options) x.options = []
         //if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
         return <RadioGroup options={x.options} onChange={x.item.onChange}/>
-
 
       default:
         return <Input trigger={'onBlur'} {...x} />
@@ -319,6 +358,14 @@ class getAllFormFields extends Component {
           if (!!item.rows) inputProps.rows = item.rows
           if (!!item.keyAccessor) inputProps.keyAccessor = item.keyAccessor
           if (!!item.valueAccessor) inputProps.valueAccessor = item.valueAccessor
+
+
+          if(this.onChange){
+            customEvent = {
+              ...customEvent,
+              getValueFromEvent: this.onChange
+            }
+          }
 
           if (item.type === 'file') {
 
