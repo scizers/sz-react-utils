@@ -8,7 +8,21 @@ import 'react-quill/dist/quill.bubble.css' // ES6
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-import { Form, Input, Upload, Icon, Button, InputNumber, Select, DatePicker, Spin, Switch, Radio } from 'antd'
+import {
+  Form,
+  Input,
+  Upload,
+  Icon,
+  Button,
+  InputNumber,
+  Select,
+  DatePicker,
+  Spin,
+  Switch,
+  Radio,
+  Modal
+} from 'antd'
+
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import S from 'string'
