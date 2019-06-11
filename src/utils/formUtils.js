@@ -167,7 +167,7 @@ class SimpleFormElement extends Component {
           defaultChecked: !!item.defaultValue,
           size: item.size !== undefined ? item.size : 'small'
         }
-        return <Switch {...extra} {...x}/>
+        return <Switch {...extra} {...x} onChange={x.item.onChange}/>
 
       case 'select':
 
