@@ -91,10 +91,13 @@ class SimpleFormElement extends Component {
       case 'number':
         return <InputNumber {...x} {...item} />
 
+      case 'customNumber':
+
+        delete item.type
+        return <InputNumber {...item}/>
       case 'date':
         return <DatePicker {...x} format={item.format}/>
 
-      case 'textarea':
       case 'textArea':
         return <TextArea {...x} rows={x.rows}/>
 
