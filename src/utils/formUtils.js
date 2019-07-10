@@ -20,7 +20,7 @@ import {
   Spin,
   Switch,
   Radio,
-  Modal
+  Modal,
 } from 'antd'
 
 import _ from 'lodash'
@@ -31,11 +31,11 @@ const RadioGroup = Radio.Group
 
 const FormItem = Form.Item
 const Option = Select.Option
-const { TextArea } = Input
+const {TextArea} = Input
 
 const styles = {
   mainDiv: {
-    position: 'relative'
+    position: 'relative',
   },
   loadingBox: {
     position: 'absolute',
@@ -45,9 +45,9 @@ const styles = {
     width: '100%',
     backgroundColor: 'rgba(255, 255,255, 0.5)',
     textAlign: 'center',
-    paddingTop: '10%'
+    paddingTop: '10%',
 
-  }
+  },
 }
 
 function getBase64 (file) {
@@ -64,28 +64,28 @@ class SimpleFormElement extends Component {
   state = {
     tempFiles: [],
     previewImage: null,
-    previewVisible: false
+    previewVisible: false,
   }
 
-  handleCancel = () => this.setState({ previewVisible: false })
+  handleCancel = () => this.setState({previewVisible: false})
 
   handlePreview = async file => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
-  }
+    }
 
     this.setState({
       previewImage: file.url || file.preview,
-      previewVisible: true
+      previewVisible: true,
     })
   }
 
-  handleChange = ({ fileList }) => this.setState({ fileList })
+  handleChange = ({fileList}) => this.setState({fileList})
 
   section = (type) => {
 
     let x = this.props
-    let { item, apiurl } = this.props
+    let {item, apiurl} = this.props
 
     switch (type) {
       case 'number':
@@ -115,11 +115,11 @@ class SimpleFormElement extends Component {
         let limit = 1
         if (!!item.limit) limit = item.limit
 
-        let { fileUploads, item: { key, photos, updateDisable } } = x
+        let {fileList, item: {key, photos, updateDisable}} = x
 
         let uploadEnable = true
-        if (fileUploads[key] !== undefined) {
-          if (fileUploads[key].length >= limit) {
+        if (fileList !== undefined) {
+          if (fileList.length >= limit) {
             uploadEnable = false
           }
         }
@@ -131,7 +131,7 @@ class SimpleFormElement extends Component {
           listTypeProps = {
             listType: 'picture-card',
             onPreview: this.handlePreview,
-            onChange: this.handleChange
+            onChange: this.handleChange,
           }
           uploadButton = (<div>
             <Icon type="plus"/>
@@ -141,24 +141,24 @@ class SimpleFormElement extends Component {
 
         return (
           <React.Fragment>
-          <Upload
-            name={'file'}
+            <Upload
+              name={'file'}
               {...listTypeProps}
 
-            action={`${apiurl}/filesUploader`}
-            defaultFileList={item.defaultFileList}
+              action={`${apiurl}/filesUploader`}
+              defaultFileList={item.defaultFileList}
               showUploadList={{
                 showPreviewIcon: true,
-                showRemoveIcon: !updateDisable
+                showRemoveIcon: !updateDisable,
               }}
-            {...x}
-          >
-              {uploadEnable && !updateDisable ? (uploadButton) : null}
+              {...x}
+            >
+              {uploadEnable && !updateDisable && (uploadButton)}
 
-          </Upload>
+            </Upload>
             <Modal visible={this.state.previewVisible} footer={null}
                    onCancel={this.handleCancel}>
-              <img alt="example" style={{ width: '100%' }}
+              <img alt="example" style={{width: '100%'}}
                    src={this.state.previewImage}/>
             </Modal>
 
@@ -168,14 +168,14 @@ class SimpleFormElement extends Component {
       case 'switch':
         let extra = {
           defaultChecked: !!item.defaultValue,
-          size: item.size !== undefined ? item.size : 'small'
+          size: item.size !== undefined ? item.size : 'small',
         }
         return <Switch {...extra} {...x} onChange={x.item.onChange}/>
 
       case 'select':
 
         if (!x.options) x.options = []
-        if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
+        if (!x.item.defaultValue) x.item.defaultValue = {'key': 'Please Select'}
         return <SelectDynamicComp {...x}/>
 
       case 'radioGroup':
@@ -189,9 +189,9 @@ class SimpleFormElement extends Component {
   }
 
   render () {
-    const { item } = this.props
+    const {item} = this.props
 
-    const { type } = item
+    const {type} = item
     return (
       <React.Fragment>
         {this.section(type)}
@@ -272,7 +272,7 @@ class SelectAsync extends PureComponent {
 class getAllFormFields extends Component {
 
   state = {
-    fileUploads: []
+    fileUploads: [],
   }
 
   normFile = (e, name) => {
@@ -281,7 +281,7 @@ class getAllFormFields extends Component {
     }
     let fileUploads = this.state.fileUploads
     fileUploads[name] = e.fileList
-    this.setState({ fileUploads })
+    this.setState({fileUploads})
     return e && e.fileList
   }
 
@@ -292,7 +292,7 @@ class getAllFormFields extends Component {
 
   updateUploadState = (key) => {
 
-    const { getFieldValue } = this.props
+    const {getFieldValue} = this.props
 
     if (!getFieldValue) return false
 
@@ -305,7 +305,7 @@ class getAllFormFields extends Component {
         fileUploads[key] = xx
 
         setTimeout(() => {
-          this.setState({ fileUploads })
+          this.setState({fileUploads})
         }, 30)
 
       }
@@ -315,22 +315,22 @@ class getAllFormFields extends Component {
 
   render () {
 
-    const { inputSchema, getFieldDecorator, children, formItemLayout, apiurl } = this.props
+    const {inputSchema, getFieldDecorator, children, formItemLayout, apiurl} = this.props
 
     let FIL = {}
 
     if (!formItemLayout) {
       FIL = {
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
-          md: { span: 8 }
+          xs: {span: 24},
+          sm: {span: 8},
+          md: {span: 8},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
-          md: { span: 12 }
-        }
+          xs: {span: 24},
+          sm: {span: 16},
+          md: {span: 12},
+        },
       }
     } else {
       FIL = formItemLayout
@@ -345,7 +345,7 @@ class getAllFormFields extends Component {
           if (item.required) {
             rules.push({
               required: true,
-              message: item.requiredMessage ? item.requiredMessage : 'This is a Mandatory Field'
+              message: item.requiredMessage ? item.requiredMessage : 'This is a Mandatory Field',
             })
           }
 
@@ -357,7 +357,6 @@ class getAllFormFields extends Component {
           if (item.customDirectives) {
             customEvent = item.customDirectives
           }
-
 
           let inputProps = {}
 
@@ -376,11 +375,10 @@ class getAllFormFields extends Component {
           if (!!item.keyAccessor) inputProps.keyAccessor = item.keyAccessor
           if (!!item.valueAccessor) inputProps.valueAccessor = item.valueAccessor
 
-
-          if(this.onChange){
+          if (this.onChange) {
             customEvent = {
               ...customEvent,
-              getValueFromEvent: this.onChange
+              getValueFromEvent: this.onChange,
             }
           }
 
@@ -391,13 +389,13 @@ class getAllFormFields extends Component {
               valuePropName: 'fileList',
               getValueFromEvent: (e) => {
                 return this.normFile(e, item.key)
-              }
+              },
             }
 
             inputProps = {
               ...inputProps,
               fileUploads: this.state.fileUploads,
-              trigger: 'onBlur'
+              trigger: 'onBlur',
             }
 
             this.updateUploadState(item.key)
@@ -408,7 +406,7 @@ class getAllFormFields extends Component {
               ...customEvent,
               initialValue: item.initialValue ? item.initialValue : '',
               valuePropName: 'value',
-              getValueFromEvent: this.onChange
+              getValueFromEvent: this.onChange,
             }
 
           }
@@ -421,15 +419,24 @@ class getAllFormFields extends Component {
               getValueFromEvent: (event, editor) => {
                 const data = editor.getData()
                 return data
-              }
+              },
             }
 
           }
 
+          if (item.type === 'customNumber') {
+            customEvent = {
+              ...customEvent,
+              defaultValue: item.defaultValue ? item.defaultValue : '',
+              valuePropName: 'value',
+              getValueFromEvent: this.onChange,
+            }
+
+          }
 
           inputProps = {
             ...inputProps,
-            ...item.customProps
+            ...item.customProps,
           }
 
           return (
@@ -441,7 +448,7 @@ class getAllFormFields extends Component {
                         key={item.key}
                         label={item.label}>
 
-                {getFieldDecorator(item.key, { rules, ...customEvent })(
+                {getFieldDecorator(item.key, {rules, ...customEvent})(
                   <SimpleFormElement item={item} {...inputProps}/>)}
 
               </FormItem>
