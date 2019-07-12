@@ -214,6 +214,7 @@ class SelectDynamicComp extends Component {
     let valueAccessor = x.valueAccessor ? x.valueAccessor : val => val.display
 
     return (<Select {...x}
+                    placeholder={x.item.placeholder ? x.item.placeholder : `${x.item.label}`}
                     showSearch={x.item.showSearch}
                     onChange={x.item.onChange}
                     disabled={x.item.disabled}
@@ -442,17 +443,18 @@ class getAllFormFields extends Component {
           return (
             <React.Fragment key={item.key}>
 
-              {item.prefixComp ? item.prefixComp : null}
-
-              <FormItem {...FIL}
-                        key={item.key}
-                        label={item.label}>
-
-                {getFieldDecorator(item.key, {rules, ...customEvent})(
-                  <SimpleFormElement item={item} {...inputProps}/>)}
-
-              </FormItem>
-
+              {!item.hidden &&
+              <React.Fragment>
+                {item.prefixComp ? item.prefixComp : null}
+                <FormItem {...FIL}
+                          key={item.key}
+                          style={item.itemStyle}
+                          label={item.label}>
+                  {getFieldDecorator(item.key, {rules, ...customEvent})(
+                    <SimpleFormElement item={item} {...inputProps}/>)}
+                  {item.rightComp ? item.rightComp : null}
+                </FormItem>
+              </React.Fragment>}
 
             </React.Fragment>
           )
