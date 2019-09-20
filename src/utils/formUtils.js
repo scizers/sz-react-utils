@@ -92,7 +92,6 @@ class SimpleFormElement extends Component {
         return <InputNumber {...x} {...item} />
 
       case 'customNumber':
-
         delete item.type
         return <InputNumber {...item}/>
       case 'date':
@@ -184,7 +183,7 @@ class SimpleFormElement extends Component {
         return <RadioGroup options={x.options} onChange={x.item.onChange}/>
 
       default:
-        return <Input trigger={'onBlur'} {...x} />
+        return <Input {...item} trigger={'onBlur'} {...x}  />
     }
   }
 
