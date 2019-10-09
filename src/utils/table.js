@@ -238,6 +238,13 @@ class TableMain extends Component {
     this.fetch2 = memoizeOne(this.fetch)
   }
 
+  onRowSelectChange = (selectedRowKeys, selectedRows) => {
+    this.setState({ selectedRowKeys, selectedRows }, () => {
+      const { checkBox } = this.props
+      checkBox({selectedRowKeys, selectedRows})
+    })
+  }
+
   componentDidUpdate (prevProps) {
     if (!_.isEqual(this.props.columns, prevProps.columns)) {
 
@@ -317,8 +324,13 @@ class TableMain extends Component {
   }
 
   renderDynamic () {
-    const {columns} = this.state
-    const {extraProps, reloadButon, rowKey} = this.props
+    const {columns, selectedRowKeys, selectedRows} = this.state
+    const {extraProps, reloadButon, rowKey, checkBox} = this.props
+    const rowSelection ={
+      selectedRowKeys,
+      selectedRows,
+      onChange: this.onRowSelectChange
+    }
     return (
       <React.Fragment>
 
@@ -333,6 +345,7 @@ class TableMain extends Component {
         <Table
           bordered
           {...extraProps}
+          rowSelection={checkBox && rowSelection}
           columns={columns}
           rowKey={rowKey ? rowKey : record => record._id}
           size={this.state.size}
@@ -353,8 +366,13 @@ class TableMain extends Component {
   }
 
   renderStatic () {
-    const {columns} = this.state
-    const {extraProps, dataSource, reloadButon, rowKey} = this.props
+    const {columns, selectedRowKeys, selectedRows} = this.state
+    const {extraProps, dataSource, reloadButon, rowKey, checkBox} = this.props
+    const rowSelection ={
+      selectedRowKeys,
+      selectedRows,
+      onChange: this.onRowSelectChange
+    }
     return (
       <React.Fragment>
 
@@ -370,6 +388,7 @@ class TableMain extends Component {
           bordered
           {...extraProps}
           columns={columns}
+          rowSelection={checkBox && rowSelection}
           rowKey={rowKey ? rowKey : record => record._id}
           size={this.state.size}
           dataSource={dataSource}
