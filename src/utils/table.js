@@ -106,8 +106,8 @@ class TableMain extends Component {
     },
     filterIcon: filtered => <Icon type="search" style={{
       color: filtered
-        ? '#1890ff'
-        : undefined,
+             ? '#1890ff'
+             : undefined,
     }}/>,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
@@ -239,8 +239,8 @@ class TableMain extends Component {
   }
 
   onRowSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({ selectedRowKeys, selectedRows }, () => {
-      const { checkBox } = this.props
+    this.setState({selectedRowKeys, selectedRows}, () => {
+      const {checkBox} = this.props
       checkBox({selectedRowKeys, selectedRows})
     })
   }
@@ -325,24 +325,25 @@ class TableMain extends Component {
 
   renderDynamic () {
     const {columns, selectedRowKeys, selectedRows} = this.state
-    const {extraProps, reloadButon, rowKey, checkBox} = this.props
-    const rowSelection ={
+    const {extraProps, reloadButon, rowKey, checkBox, id} = this.props
+    const rowSelection = {
       selectedRowKeys,
       selectedRows,
-      onChange: this.onRowSelectChange
+      onChange: this.onRowSelectChange,
     }
     return (
       <React.Fragment>
 
         <div style={{marginBottom: 10}}>
           {reloadButon ?
-            <Button
-              shape="circle" onClick={() => {
-              this.reload()
-            }} icon="reload"/> : null}
+           <Button
+             shape="circle" onClick={() => {
+             this.reload()
+           }} icon="reload"/> : null}
         </div>
 
         <Table
+          id={id || 'datatable'}
           bordered
           {...extraProps}
           rowSelection={checkBox && rowSelection}
@@ -367,25 +368,26 @@ class TableMain extends Component {
 
   renderStatic () {
     const {columns, selectedRowKeys, selectedRows} = this.state
-    const {extraProps, dataSource, reloadButon, rowKey, checkBox} = this.props
-    const rowSelection ={
+    const {extraProps, dataSource, reloadButon, rowKey, checkBox, id} = this.props
+    const rowSelection = {
       selectedRowKeys,
       selectedRows,
-      onChange: this.onRowSelectChange
+      onChange: this.onRowSelectChange,
     }
     return (
       <React.Fragment>
 
         <div style={{marginBottom: 10}}>
           {reloadButon ?
-            <Button
-              shape="circle" onClick={() => {
-              this.reload()
-            }} icon="reload"/> : null}
+           <Button
+             shape="circle" onClick={() => {
+             this.reload()
+           }} icon="reload"/> : null}
         </div>
 
         <Table
           bordered
+          id={id || 'datatable'}
           {...extraProps}
           columns={columns}
           rowSelection={checkBox && rowSelection}
@@ -415,8 +417,8 @@ class TableMain extends Component {
 
     return (
       <React.Fragment>{!!apiRequest
-        ? this.renderDynamic()
-        : this.renderStatic()}</React.Fragment>
+                       ? this.renderDynamic()
+                       : this.renderStatic()}</React.Fragment>
     )
   }
 
