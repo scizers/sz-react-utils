@@ -180,7 +180,7 @@ class SimpleFormElement extends Component {
       case 'radioGroup':
         if (!x.options) x.options = []
         //if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
-        return <RadioGroup options={x.options} onChange={x.item.onChange}/>
+        return <RadioGroup {...x} options={x.options} onChange={x.item.onChange}/>
 
       default:
         return <Input {...item} trigger={'onBlur'} {...x}  />
