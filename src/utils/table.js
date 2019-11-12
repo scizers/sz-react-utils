@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Button, DatePicker, Icon, Input, Table } from 'antd'
+import { Button, DatePicker, Icon, Input, Table, Select } from 'antd'
 import _ from 'lodash'
 import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
+
+const {Option} = Select
 
 const {MonthPicker, RangePicker, WeekPicker} = DatePicker
 
@@ -52,7 +54,6 @@ class TableMain extends Component {
       loading: false,
       data: data.data,
       pagination,
-
     })
 
   }
@@ -244,6 +245,11 @@ class TableMain extends Component {
       checkBox({selectedRowKeys, selectedRows})
     })
   }
+  handleChange = (value) => {
+    // console.log(value, "jdgfhngjhdg");
+    localStorage.setItem(this.props.id, JSON.stringify(value))
+    this.reload()
+  }
 
   componentDidUpdate (prevProps) {
     if (!_.isEqual(this.props.columns, prevProps.columns)) {
@@ -324,13 +330,31 @@ class TableMain extends Component {
   }
 
   renderDynamic () {
-    const {columns, selectedRowKeys, selectedRows} = this.state
-    const {extraProps, reloadButon, rowKey, checkBox, id} = this.props
+    let {columns, selectedRowKeys, selectedRows} = this.state
+    const {extraProps, reloadButon, rowKey, checkBox, id, showSelector} = this.props
     const rowSelection = {
       selectedRowKeys,
       selectedRows,
       onChange: this.onRowSelectChange,
     }
+
+    const columnsName = _.map(columns, x => ({key: x.key, title: x.title}))
+
+    let all = []
+
+    _.each(columns, x => {
+      all.push(x.key)
+    })
+
+    let def = localStorage.getItem(this.props.id)
+    if (def) {
+      all = JSON.parse(def)
+    }
+
+    columns = _.filter(columns, (x) => {
+      return all.indexOf(x.key) !== -1
+    })
+
     return (
       <React.Fragment>
 
@@ -341,6 +365,26 @@ class TableMain extends Component {
              this.reload()
            }} icon="reload"/> : null}
         </div>
+
+        {(showSelector && id) &&
+        <div style={{textAlign: 'right', marginBottom: '13px'}}>
+          <Select
+            mode="multiple"
+            maxTagTextLength={10}
+            maxTagCount={0}
+            style={{width: '10%'}}
+            placeholder="select columns"
+            defaultValue={all}
+            onChange={this.handleChange}
+            optionLabelProp="label"
+          >
+
+            {columnsName.map((x) => (<Option value={x.key} label={x.title}>
+              {x.title}
+            </Option>))}
+
+          </Select>
+        </div>}
 
         <Table
           id={id || 'datatable'}
