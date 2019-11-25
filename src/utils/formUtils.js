@@ -47,7 +47,7 @@ const styles = {
     textAlign: 'center',
     paddingTop: '10%',
 
-  },
+  }
 }
 
 function getBase64 (file) {
@@ -104,11 +104,12 @@ class SimpleFormElement extends Component {
         return <ReactQuill  {...x} />
 
       case 'ckeditor':
+        // let currentTimeStamp = moment().unix()
         return <CKEditor
+          key={x.item.editorKey || x.item.key}
           editor={ClassicEditor}
           {...x}
         />
-
       case 'file':
 
         let limit = 1
@@ -284,12 +285,6 @@ class getAllFormFields extends Component {
     this.setState({fileUploads})
     return e && e.fileList
   }
-
-  constructor (props) {
-    super(props)
-
-  }
-
   updateUploadState = (key) => {
 
     const {getFieldValue} = this.props
@@ -313,6 +308,11 @@ class getAllFormFields extends Component {
     }
   }
 
+  constructor (props) {
+    super(props)
+
+  }
+
   render () {
 
     const {inputSchema, getFieldDecorator, children, formItemLayout, apiurl} = this.props
@@ -330,7 +330,7 @@ class getAllFormFields extends Component {
           xs: {span: 24},
           sm: {span: 16},
           md: {span: 12},
-        },
+        }
       }
     } else {
       FIL = formItemLayout
@@ -389,7 +389,7 @@ class getAllFormFields extends Component {
               valuePropName: 'fileList',
               getValueFromEvent: (e) => {
                 return this.normFile(e, item.key)
-              },
+              }
             }
 
             inputProps = {
@@ -419,7 +419,7 @@ class getAllFormFields extends Component {
               getValueFromEvent: (event, editor) => {
                 const data = editor.getData()
                 return data
-              },
+              }
             }
 
           }
