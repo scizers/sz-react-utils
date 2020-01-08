@@ -184,7 +184,7 @@ class SimpleFormElement extends Component {
         return <RadioGroup {...x} options={x.options} onChange={x.item.onChange}/>
 
       default:
-        return <Input {...item} trigger={'onBlur'} {...x}  />
+        return <Input trigger={'onBlur'} {...x}  {...item} />
     }
   }
 
