@@ -98,7 +98,8 @@ class SimpleFormElement extends Component {
         return <DatePicker {...x} format={item.format}/>
 
       case 'textArea':
-        return <TextArea {...x} rows={x.rows}/>
+      case 'textarea':
+        return <TextArea {...x} rows={x.rows} {...item} />
 
       case 'editor':
         return <ReactQuill  {...x} />
