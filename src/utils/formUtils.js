@@ -47,7 +47,7 @@ const styles = {
     textAlign: 'center',
     paddingTop: '10%',
 
-  }
+  },
 }
 
 function getBase64 (file) {
@@ -173,6 +173,7 @@ class SimpleFormElement extends Component {
         }
         return <Switch {...extra} {...x} onChange={x.item.onChange}/>
 
+
       case 'select':
 
         if (!x.options) x.options = []
@@ -182,10 +183,10 @@ class SimpleFormElement extends Component {
       case 'radioGroup':
         if (!x.options) x.options = []
         //if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
-        return <RadioGroup {...x} options={x.options} onChange={x.item.onChange}/>
+        return <RadioGroup {...item} {...x} options={x.options} onChange={x.item.onChange}/>
 
       default:
-        return <Input trigger={'onBlur'} {...x}  {...item} />
+        return <Input trigger={'onBlur'} {...x} {...item} />
     }
   }
 
@@ -331,7 +332,7 @@ class getAllFormFields extends Component {
           xs: {span: 24},
           sm: {span: 16},
           md: {span: 12},
-        }
+        },
       }
     } else {
       FIL = formItemLayout
@@ -390,7 +391,7 @@ class getAllFormFields extends Component {
               valuePropName: 'fileList',
               getValueFromEvent: (e) => {
                 return this.normFile(e, item.key)
-              }
+              },
             }
 
             inputProps = {
@@ -420,7 +421,7 @@ class getAllFormFields extends Component {
               getValueFromEvent: (event, editor) => {
                 const data = editor.getData()
                 return data
-              }
+              },
             }
 
           }
