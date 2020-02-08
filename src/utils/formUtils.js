@@ -173,7 +173,6 @@ class SimpleFormElement extends Component {
         }
         return <Switch {...extra} {...x} onChange={x.item.onChange}/>
 
-
       case 'select':
 
         if (!x.options) x.options = []
@@ -183,6 +182,11 @@ class SimpleFormElement extends Component {
       case 'radioGroup':
         if (!x.options) x.options = []
         //if (!x.item.defaultValue) x.item.defaultValue = { 'key': 'Please Select' }
+
+        if (x.mode === 'solid') {
+          return <RadioGroup {...item} {...x} options={x.options} onChange={x.item.onChange}/>
+        }
+
         return <RadioGroup {...item} {...x} options={x.options} onChange={x.item.onChange}/>
 
       default:
@@ -434,6 +438,13 @@ class getAllFormFields extends Component {
               getValueFromEvent: this.onChange,
             }
 
+          }
+
+          if (item.type === 'switch') {
+            customEvent = {
+              ...customEvent,
+              valuePropName: 'checked',
+            }
           }
 
           inputProps = {
