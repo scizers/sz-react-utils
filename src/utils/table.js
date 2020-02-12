@@ -18,6 +18,7 @@ class TableMain extends Component {
     pagination: {},
     loading: true,
     searchText: '',
+    withoutLoader: false,
     dataSearchParams: {},
     dateFilters: {},
   }
@@ -39,8 +40,15 @@ class TableMain extends Component {
 
   fetch = async (params = {}) => {
 
+    const {withoutLoader} = this.state
+
+    let loading = true
+    if (withoutLoader) {
+      loading = false
+    }
+
     this.setState({
-      loading: true,
+      loading,
       dataSearchParams: params,
     })
 
@@ -222,7 +230,11 @@ class TableMain extends Component {
     this.setState({searchText: ''})
   }
 
-  reload = () => {
+  reload = (withoutLoader) => {
+
+    this.setState({
+      withoutLoader: !!withoutLoader,
+    })
 
     let {apiRequest} = this.props
     if (!!apiRequest) {
