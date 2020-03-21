@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button, DatePicker, Icon, Input, Table, Select } from 'antd'
 import _ from 'lodash'
-import Highlighter from 'react-highlight-words'
 import memoizeOne from 'memoize-one'
 import S from 'string'
 
@@ -125,14 +124,7 @@ class TableMain extends Component {
     },
     render: (text) => {
       return (
-        <React.Fragment>
-          {!!text ? (<Highlighter
-            highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-            searchWords={[this.state.searchText]}
-            autoEscape
-            textToHighlight={text.toString()}
-          />) : null}
-        </React.Fragment>
+        <React.Fragment>{text}</React.Fragment>
       )
     },
   })
@@ -257,6 +249,7 @@ class TableMain extends Component {
       checkBox({selectedRowKeys, selectedRows})
     })
   }
+
   handleChange = (value) => {
     // console.log(value, "jdgfhngjhdg");
     localStorage.setItem(this.props.id, JSON.stringify(value))

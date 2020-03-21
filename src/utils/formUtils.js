@@ -1,4 +1,4 @@
-import moment from 'moment'
+// import moment from 'moment'
 import React, { Component, PureComponent } from 'react'
 
 import ReactQuill from 'react-quill' // ES6
@@ -23,8 +23,7 @@ import {
   Modal,
 } from 'antd'
 
-import _ from 'lodash'
-import PropTypes from 'prop-types'
+import isEqual from 'lodash/isEqual'
 import S from 'string'
 
 const RadioGroup = Radio.Group
@@ -105,7 +104,6 @@ class SimpleFormElement extends Component {
         return <ReactQuill  {...x} />
 
       case 'ckeditor':
-        // let currentTimeStamp = moment().unix()
         return <CKEditor
           key={x.item.editorKey || x.item.key}
           editor={ClassicEditor}
@@ -302,7 +300,7 @@ class getAllFormFields extends Component {
     if (xx) {
       let fileUploads = this.state.fileUploads
 
-      if (!_.isEqual(xx, fileUploads[key])) {
+      if (!isEqual(xx, fileUploads[key])) {
         fileUploads[key] = xx
 
         setTimeout(() => {
