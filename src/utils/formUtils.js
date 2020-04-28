@@ -459,7 +459,8 @@ class getAllFormFields extends Component {
                 <FormItem {...FIL}
                           key={item.key}
                           style={item.itemStyle}
-                          label={item.label}>
+                          label={item.label}
+                          extra={item.extra}>
                   {getFieldDecorator(item.key, {rules, ...customEvent})(
                     <SimpleFormElement item={item} {...inputProps}/>)}
                   {item.rightComp ? item.rightComp : null}
