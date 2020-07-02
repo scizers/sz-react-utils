@@ -221,6 +221,7 @@ class SelectDynamicComp extends Component {
                     placeholder={x.item.placeholder ? x.item.placeholder : `${x.item.label}`}
                     showSearch={x.item.showSearch}
                     onChange={x.item.onChange}
+                    showAction={['focus', 'click']}
                     disabled={x.item.disabled}
                     filterOption={(input, option) => {
                       return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
